@@ -15,11 +15,28 @@
             $('.listview li').removeClass("background_selected");
             $(this).addClass("background_selected");
         });
-        function deleteitem() {
-            $(".listview .background_selected").slideUp(200, function () {
-                $(this).detach();
-            });
-        }
+    
+        function deleteItem() {
+    var selectedItem = $(".listview .background_selected");
+    var selectedIndex = -1; // Initialize to an invalid index
+
+    // Check if there is a selected item
+    if (selectedItem.length > 0) {
+        selectedIndex = $(".listview .background_selected").index();
+        
+        // Slide up and detach the selected item
+        selectedItem.slideUp(200, function () {
+            $(this).detach();
+            
+            // Send the selected index back to App Inventor
+            window.android.getSelectedIndex(selectedIndex);
+        });
+    } else {
+        // If no item is selected, send -1
+        window.android.getSelectedIndex(-1);
+    }
+}
+
         function scroolFocusitem(id) {
             var b = $(".listview li[id='" + id + "']");
             $(".listview").scrollTo(b, 100, {
